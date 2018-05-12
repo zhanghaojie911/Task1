@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.StudentMapper">
+    <insert id="addStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
+        INSERT  INTO people (id,name,gender) VALUES (#{id},#{name},#{gender})
+    </insert>
+
+    <update id="updateStudent" parameterType="Student">
+        UPDATE people
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="gender!=null">gender=#{gender},</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteStudent" parameterType="int">
+        DELETE FROM people WHERE id=#{id}
+    </delete>
+
+    <select id="selectStudentById" parameterType="int" resultType="Student">
+        SELECT * FROM people WHERE id=#{id}
+    </select>
+
+    <select id="listAllStudent" resultType="Student">
+        SELECT * FROM people
+    </select>
+
+    <select id="listStudentByName" parameterType="map" resultType="Student">
+        SELECT * FROM  people
+            <if test="name!=null">
+                WHERE NAME LIKE concat ('%',#{name},'%')
+            </if>
+    </select>
+
+</mapper>

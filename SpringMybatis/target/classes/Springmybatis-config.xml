@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+        <context:component-scan base-package="dao"/>
+
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:3306/enrolment?useSSL=false"/>
+            <property name="username" value="root"/>
+            <property name="password" value="19971015"/>
+          </bean>
+
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <!--指定连接数据库的数据源-->
+            <property name="dataSource" ref="dataSource"/>
+            <!--指定mapper文件存放的位置,如果和Dao文件同名同包，可以不写此行-->
+            <property name="mapperLocations" value="classpath:StudentMapper.xml"/>
+            <!--实体类所在的包,配置别名用的-->
+            <property name="typeAliasesPackage" value="model"/>
+        </bean>
+
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <!--扫描Mapper类所在包-->
+            <property name="basePackage" value="dao"/>
+        </bean>
+
+
+</beans>
